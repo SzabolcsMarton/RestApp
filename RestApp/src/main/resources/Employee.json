@@ -1,0 +1,30 @@
+{
+  "Employees": {
+    "Employee": [
+      {
+        "age": 29,
+        "name": "Pankaj",
+        "gender": "Male",
+        "role": "Java Developer"
+      },
+      {
+        "age": 35,
+        "name": "Lisa",
+        "gender": "Female",
+        "role": "CEO"
+      },
+      {
+        "age": 40,
+        "name": "Tom",
+        "gender": "Male",
+        "role": "Manager"
+      },
+      {
+        "age": 25,
+        "name": "Meghna",
+        "gender": "Female",
+        "role": "Manager"
+      }
+    ]
+  }
+}
