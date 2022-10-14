@@ -39,9 +39,12 @@ public class EmployeeService {
 	Employee empToUpdate = repository.findById(id).orElseThrow(()-> new EmployeeNotFoundException("Cannot find employee in DB with id : " + id));
 	empToUpdate.setName(employee.getName());
 	empToUpdate.setSalary(employee.getSalary());
+	empToUpdate.setEmail(employee.getEmail());
 	repository.save(empToUpdate);
 	return empToUpdate;
     }
+    
+    
     
     
 }

@@ -3,6 +3,8 @@ package com.szabolcs.rest.RestApp.controller;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/employees")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+    public ResponseEntity<Employee> createEmployee(@Valid @RequestBody Employee employee) {
 	Employee savedEmployee = service.createEmployee(employee);
 	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 		.buildAndExpand(savedEmployee.getId()).toUri();
