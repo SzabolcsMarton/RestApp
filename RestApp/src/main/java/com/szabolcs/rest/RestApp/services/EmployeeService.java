@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.szabolcs.rest.RestApp.exceptions.EmployeeNotFoundException;
+import com.szabolcs.rest.RestApp.model.Department;
 import com.szabolcs.rest.RestApp.model.Employee;
 import com.szabolcs.rest.RestApp.repositories.EmployeeRepository;
 
@@ -40,8 +41,16 @@ public class EmployeeService {
 	empToUpdate.setName(employee.getName());
 	empToUpdate.setSalary(employee.getSalary());
 	empToUpdate.setEmail(employee.getEmail());
-	repository.save(empToUpdate);
-	return empToUpdate;
+	empToUpdate.setDepartment(employee.getDepartment());
+	return repository.save(empToUpdate);
+	
+    }
+    
+    public Employee addDepartmentToEmployee(Long empId, Department department) {
+	Employee emp =  repository.findById(empId).orElseThrow(()-> new EmployeeNotFoundException("Cannot find employee in DB with id : " + empId));
+	emp.setDepartment(department);
+	return this.updateEmployeeById(empId, emp);
+	
     }
     
     

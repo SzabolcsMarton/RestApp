@@ -20,8 +20,8 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
+
+    @OneToMany(cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Employee> employees;
 
@@ -57,11 +57,11 @@ public class Department {
     public void setEmployees(List<Employee> employees) {
 	this.employees = employees;
     }
-    
+
     public void addEmployeeToList(Employee employee) {
 	this.employees.add(employee);
     }
-    
+
     public void removeEmployeeFromList(Employee employee) {
 	this.employees.remove(employee);
     }

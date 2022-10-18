@@ -19,17 +19,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.szabolcs.rest.RestApp.model.Department;
 import com.szabolcs.rest.RestApp.model.Employee;
+import com.szabolcs.rest.RestApp.services.DepartmentService;
 import com.szabolcs.rest.RestApp.services.EmployeeService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/emp")
 public class EmployeeController {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeController.class);
 
     @Autowired
     private EmployeeService service;
+    
+    @Autowired
+    private DepartmentService depService;
 
     @GetMapping("/employees")
     public ResponseEntity<List<Employee>> getAllEmployees() {
@@ -66,6 +71,17 @@ public class EmployeeController {
 	LOGGER.info("Update employee in database with the id: " + id);
 	Employee emp = service.updateEmployeeById(id, employee);
 	return ResponseEntity.ok(emp);
+    }
+    
+    
+    @GetMapping("/employees/{empId}/{depName}")
+    public ResponseEntity<Department> addDepToEmp(@PathVariable String depName, @PathVariable Long empId) {
+	LOGGER.info("Add department : " +  depName + " to Employee with id:  "+ empId);
+	Department dep = depService.findDepByNameReturnsDepartment(depName);
+	service.addDepartmentToEmployee(empId, dep);
+	Department depWithEmpl = depService.addEmployeeToDeptById(empId, depName.toLowerCase());
+	return ResponseEntity.ok(depWithEmpl);
+
     }
 
 }
