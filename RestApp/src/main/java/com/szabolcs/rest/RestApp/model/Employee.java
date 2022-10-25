@@ -1,5 +1,6 @@
 package com.szabolcs.rest.RestApp.model;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +24,6 @@ import javax.validation.constraints.Email;
 @Table(name = "employee")
 public class Employee {
     
-    private final String emailRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public class Employee {
     private String name;
 
     @Column(unique = true, nullable = false)
-    @Email(regexp = emailRegex)
+    @Email(regexp = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")
     private String email;
 
     private String password;
@@ -47,17 +47,25 @@ public class Employee {
     private Department department;
 
     private int salary;
+    
+    @Column(name = "activation_date")
+    private LocalDate activationDate;
+    
+    @Column(name = "is_activated")
+    private boolean isActivated = false;
 
     public Employee() {
     }
 
-    public Employee(Long id, String name, @Email(regexp = emailRegex) String email,String password) {
+    public Employee(Long id, String name,String email,String password) {
 	this.id = id;
 	this.name = name;
 	this.email = email;
 	this.password = password;
 	
     }
+    
+    
 
     public Long getId() {
 	return id;
@@ -121,6 +129,22 @@ public class Employee {
 
     public void setPassword(String password) {
 	this.password = password;
+    }
+
+    public LocalDate getActivationDate() {
+        return activationDate;
+    }
+
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivationDate(LocalDate activationDate) {
+        this.activationDate = activationDate;
+    }
+
+    public void setActivated(boolean isActivated) {
+        this.isActivated = isActivated;
     }
 
 }
