@@ -3,18 +3,29 @@ package com.szabolcs.rest.RestApp.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.szabolcs.rest.RestApp.exceptions.EmployeeExistsException;
 import com.szabolcs.rest.RestApp.exceptions.EmployeeNotFoundException;
 import com.szabolcs.rest.RestApp.model.Department;
 import com.szabolcs.rest.RestApp.model.Employee;
+import com.szabolcs.rest.RestApp.model.Role;
 import com.szabolcs.rest.RestApp.repositories.EmployeeRepository;
 
 @Service
 public class EmployeeService {
     
+    private final String EMPLOYEE_ROLE = "EMPLOYEE";
+    
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+    
     @Autowired
     private EmployeeRepository repository;
+    
+    @Autowired
+    private RoleService roleService;
     
     public List<Employee> getAllEmployees(){
 	return repository.findAll();
@@ -50,6 +61,23 @@ public class EmployeeService {
 	Employee emp =  repository.findById(empId).orElseThrow(()-> new EmployeeNotFoundException("Cannot find employee in DB with id : " + empId));
 	emp.setDepartment(department);
 	return this.updateEmployeeById(empId, emp);
+	
+    }
+    
+    public Employee registerEmployee(Employee employeeToRegister) {
+	Employee checkEmployee = repository.findByEmail(employeeToRegister.getEmail());
+	if (checkEmployee != null) {
+	    throw new EmployeeExistsException("Employee email is already registered: " + employeeToRegister.getEmail());
+	}
+	Role role = roleService.getRoleByRole(EMPLOYEE_ROLE);
+	Employee empToReg = new Employee();
+	empToReg.setName(employeeToRegister.getName());
+	empToReg.setEmail(employeeToRegister.getEmail());
+	empToReg.setPassword(employeeToRegister.getPassword());
+//	empToReg.setPassword(passwordEncoder.encode(employeeToRegister.getPassword()));
+	empToReg.addRole(role);
+	
+	return repository.save(empToReg);
 	
     }
     

@@ -51,8 +51,7 @@ public class Employee {
     @Column(name = "activation_date")
     private LocalDate activationDate;
     
-    @Column(name = "is_activated")
-    private boolean isActivated = false;
+ 
 
     public Employee() {
     }
@@ -65,8 +64,6 @@ public class Employee {
 	
     }
     
-    
-
     public Long getId() {
 	return id;
     }
@@ -118,6 +115,7 @@ public class Employee {
     public void addRole(Role role) {
 	this.roles.add(role);
     }
+    
 
     public void removeRole(Role role) {
 	this.roles.remove(role);
@@ -133,18 +131,15 @@ public class Employee {
 
     public LocalDate getActivationDate() {
         return activationDate;
-    }
-
-    public boolean isActivated() {
-        return isActivated;
-    }
+    } 
 
     public void setActivationDate(LocalDate activationDate) {
         this.activationDate = activationDate;
     }
 
-    public void setActivated(boolean isActivated) {
-        this.isActivated = isActivated;
-    }
+  
+    
+
+  
 
 }

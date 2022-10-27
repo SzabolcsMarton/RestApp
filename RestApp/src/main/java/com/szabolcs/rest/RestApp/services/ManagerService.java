@@ -16,6 +16,8 @@ import com.szabolcs.rest.RestApp.repositories.RoleRepository;
 
 @Service
 public class ManagerService {
+    
+    private static final int BASE_SALARY = 20000;
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -24,16 +26,39 @@ public class ManagerService {
     @Autowired
     private DepartmentRepository departmentRepository;
     
-    public Employee activateBasicEmployee(Long employeeId,Long departmentId, int salary, String roleName ) {
+    public Employee activateBasicEmployee(Long employeeId,Long departmentId) {
 	Employee emp = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException("Cannot find employee with id: " + employeeId));
-	Department dep = departmentRepository.findById(departmentId).orElseThrow(()-> new DepartmentNotFoundException("Cannot find department with id: " + departmentId));
-	Role role = roleRepository.findByRole(roleName.toUpperCase());
+	Department dep = departmentRepository.findById(departmentId).orElseThrow(()-> new DepartmentNotFoundException("Cannot find department with id: " + departmentId));	
 	emp.setDepartment(dep);
-	emp.setSalary(salary);
-	emp.setActivated(true);
-	emp.addRole(role);
+	emp.setSalary(BASE_SALARY);
+
 	emp.setActivationDate(LocalDate.now());
 	return employeeRepository.save(emp);
 	
+    }
+    
+    public Employee addRoleToEmployee(Long employeeId, String roleName) {
+	Employee emp = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException("Cannot find employee with id: " + employeeId));
+	Role role = roleRepository.findByRole(roleName.toUpperCase());
+	emp.addRole(role);
+	return employeeRepository.save(emp);
+	
+    }
+    
+    public Employee removeRoleFromEmployee(Long employeeId, String roleName) {
+ 	Employee emp = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException("Cannot find employee with id: " + employeeId));
+ 	Role role = roleRepository.findByRole(roleName.toUpperCase());
+ 	emp.removeRole(role);
+ 	return employeeRepository.save(emp);
+     }
+    
+    
+    
+    public boolean deleteEmployee(Long empId) {
+	if(employeeRepository.existsById(empId)) {
+	    employeeRepository.deleteById(empId);
+	    return true;
+	}
+	return false;
     }
 }

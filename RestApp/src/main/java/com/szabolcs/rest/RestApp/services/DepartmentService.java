@@ -1,6 +1,7 @@
 package com.szabolcs.rest.RestApp.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,11 @@ public class DepartmentService {
 	if (department == null) {
 	    throw new DepartmentNotFoundException("Cannot find department with name: " + name);
 	}
+	return department;
+    }
+    
+    public Department getById(Long id) {
+	Department department = departmentRepository.findById(id).orElseThrow(()-> new DepartmentNotFoundException("Cannot find dep with id: " + id));
 	return department;
     }
 

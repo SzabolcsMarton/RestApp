@@ -18,7 +18,11 @@ public class RoleService {
     public Role getRoleById(Long id) {
 	return roleRepository.findById(id).orElseThrow(()-> new RoleCanNotFoundException("Cannot find role with id : " + id));
     }
-       
+    
+    public Role getRoleByRole(String role) {
+	return roleRepository.findByRole(role);
+    }
+    
     public List<Role> getAllRoles(){
 	return roleRepository.findAll();
     }
