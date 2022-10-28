@@ -37,9 +37,8 @@ public class ManagerService {
 	
     }
     
-    public Employee addRoleToEmployee(Long employeeId, String roleName) {
+    public Employee addRoleToEmployee(Long employeeId, Role role) {
 	Employee emp = employeeRepository.findById(employeeId).orElseThrow(()-> new EmployeeNotFoundException("Cannot find employee with id: " + employeeId));
-	Role role = roleRepository.findByRole(roleName.toUpperCase());
 	emp.addRole(role);
 	return employeeRepository.save(emp);
 	

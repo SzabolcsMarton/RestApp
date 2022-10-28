@@ -1,8 +1,10 @@
 package com.szabolcs.rest.RestApp.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +20,8 @@ public class EmployeeService {
     
     private final String EMPLOYEE_ROLE = "EMPLOYEE";
     
-//    @Autowired
-//    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     @Autowired
     private EmployeeRepository repository;
@@ -65,16 +67,16 @@ public class EmployeeService {
     }
     
     public Employee registerEmployee(Employee employeeToRegister) {
-	Employee checkEmployee = repository.findByEmail(employeeToRegister.getEmail());
-	if (checkEmployee != null) {
-	    throw new EmployeeExistsException("Employee email is already registered: " + employeeToRegister.getEmail());
+	Optional<Employee> checkEmployee = repository.findByEmail(employeeToRegister.getEmail());
+	if(checkEmployee.isPresent()) {
+	    throw new EmployeeExistsException("Employee email is already registered: "+ checkEmployee.get().getEmail());
 	}
 	Role role = roleService.getRoleByRole(EMPLOYEE_ROLE);
 	Employee empToReg = new Employee();
 	empToReg.setName(employeeToRegister.getName());
 	empToReg.setEmail(employeeToRegister.getEmail());
 	empToReg.setPassword(employeeToRegister.getPassword());
-//	empToReg.setPassword(passwordEncoder.encode(employeeToRegister.getPassword()));
+	empToReg.setPassword(passwordEncoder.encode(employeeToRegister.getPassword()));
 	empToReg.addRole(role);
 	
 	return repository.save(empToReg);
