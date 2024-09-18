@@ -27,8 +27,9 @@ public class RoleService {
 	return roleRepository.findAll();
     }
     
-    public Role createRole(Role role) {
-	return roleRepository.save(role);
+    public Role createRole(String role) {
+	Role roleToSave = new Role(role);
+	return roleRepository.save(roleToSave);
     }
     
     public boolean deleteRole(Long id) {

@@ -3,25 +3,25 @@
     "Employee": [
       {
         "age": 29,
-        "name": "Pankaj",
+        "name": "Józsi Bácsi",
         "gender": "Male",
         "role": "Java Developer"
       },
       {
         "age": 35,
-        "name": "Lisa",
+        "name": "Bözsi Néni",
         "gender": "Female",
         "role": "CEO"
       },
       {
         "age": 40,
-        "name": "Tom",
+        "name": "Tibi Bácsi",
         "gender": "Male",
         "role": "Manager"
       },
       {
         "age": 25,
-        "name": "Meghna",
+        "name": "Kati Néni",
         "gender": "Female",
         "role": "Manager"
       }

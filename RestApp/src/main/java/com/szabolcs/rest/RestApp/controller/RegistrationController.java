@@ -20,21 +20,20 @@ import com.szabolcs.rest.RestApp.services.EmployeeService;
 @RestController
 @RequestMapping("/api/registration")
 public class RegistrationController {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationController.class);
 
     @Autowired
     private EmployeeService employeeService;
-    
+
     @PostMapping("/emp")
     public ResponseEntity<Employee> registerEmployee(@Valid @RequestBody Employee employee) {
-	Employee savedEmployee = employeeService.registerEmployee(employee);
-	URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-		.buildAndExpand(savedEmployee.getId()).toUri();
-	LOGGER.info("Registered employee in database with the generated id: " + savedEmployee.getId());
-	return ResponseEntity.created(location).build();
+        Employee savedEmployee = employeeService.registerEmployee(employee);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(savedEmployee.getId()).toUri();
+        LOGGER.info("Registered employee in database with the generated id: " + savedEmployee.getId());
+        return ResponseEntity.created(location).build();
     }
-    
 
 
 }

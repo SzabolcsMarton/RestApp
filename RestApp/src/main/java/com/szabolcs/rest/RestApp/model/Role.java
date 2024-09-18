@@ -39,8 +39,8 @@ public class Role {
 	this.employees = employees;
     }
 
-    public long getId() {
-	return id;
+    public Long getId() {
+	return this.id;
     }
 
     public String getRole() {

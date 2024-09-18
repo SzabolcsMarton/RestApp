@@ -41,8 +41,8 @@ public class ManagerController {
     }
     
     
-    @GetMapping("/addRole/{employeeId}/{roleId}")
-    public ResponseEntity<Employee> getOneEmployeeById(@PathVariable Long employeeId, @PathVariable Long roleId) {
+    @GetMapping("/addrole/{employeeId}/{roleId}")
+    public ResponseEntity<Employee> addRoleToEmployee(@PathVariable Long employeeId, @PathVariable Long roleId) {
 	Role role = roleService.getRoleById(roleId);
    	LOGGER.info("Add role \"" + role.getRole() + "\" to employee with id: " + employeeId);
    	Employee emp = managerService.addRoleToEmployee(employeeId, role);
